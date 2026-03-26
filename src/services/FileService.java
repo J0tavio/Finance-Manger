@@ -1,7 +1,7 @@
 package services;
 
 import enums.Category;
-import records.Transaction;
+import models.records.TransactionRecord;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,11 +9,11 @@ import java.util.List;
 
 public class FileService {
 
-    public static List<Transaction> loadTransactions() {
-        List<Transaction> transactions = new ArrayList<>();
+    public static List<TransactionRecord> loadTransactions(String name) {
+        List<TransactionRecord> transactions = new ArrayList<>();
 
         try {
-            File file = new File("My_finances.csv");
+            File file = new File(name + ".csv");
 
             if (file.exists()) {
                 FileReader fileReader = new FileReader(file);
@@ -29,14 +29,14 @@ public class FileService {
                     double priceRead = Double.parseDouble(pieces[2]);
                     Category categoryRead = Category.valueOf(pieces[3]);
 
-                    transactions.add(new Transaction(descRead, typeRead, priceRead, categoryRead));
+                    transactions.add(new TransactionRecord(descRead, typeRead, priceRead, categoryRead));
 
                 }
                 myBufferedReader.close();
                 System.out.println("✅ Data loaded! (" + transactions.size() + " Transactions founded)\n");
             }
-        } catch (Exception erro) {
-            System.out.println("❌ Error reading file : " + erro.getMessage());
+        } catch (Exception error) {
+            System.out.println("❌ Error reading file : " + error.getMessage());
         }
         return transactions;
     }
@@ -52,13 +52,13 @@ public class FileService {
 
     }
 
-    public static void saveTransactions(List<Transaction> transactions) {
+    public static void saveTransactions(List<TransactionRecord> transactions) {
 
         try {
             FileWriter myWriter = new FileWriter("My_finances.csv", false);
             BufferedWriter myBufferedWriter = new BufferedWriter(myWriter);
 
-            for (Transaction t : transactions) {
+            for (TransactionRecord t : transactions) {
 
                 String line = t.description() + "," + t.type() + "," + t.price() + "," + t.category();
 
@@ -68,8 +68,8 @@ public class FileService {
 
             myBufferedWriter.close();
             System.out.println("✅ Data saved successfully: 'My_finances.csv'");
-        } catch (IOException erro) {
-            System.out.println("Error writing to file" + erro.getMessage());
+        } catch (IOException error) {
+            System.out.println("Error writing to file" + error.getMessage());
         }
     }
 }

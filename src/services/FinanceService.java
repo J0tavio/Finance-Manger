@@ -1,25 +1,25 @@
 package services;
 
 import enums.Category;
-import records.Transaction;
+import models.records.TransactionRecord;
 
 import java.util.List;
 
 public class FinanceService {
 
-    public double calculateExpenses(List<Transaction> transactions) {
+    public double calculateExpenses(List<TransactionRecord> transactions) {
 
         return transactions.stream()
                 .filter(t -> t.category() != Category.SALARY)
-                .mapToDouble(Transaction::price)
+                .mapToDouble(TransactionRecord::price)
                 .sum();
     }
 
-    public double calculateSalary(List<Transaction> transactions) {
+    public double calculateSalary(List<TransactionRecord> transactions) {
 
         return transactions.stream()
                 .filter(t -> t.category() == Category.SALARY)
-                .mapToDouble(Transaction::price)
+                .mapToDouble(TransactionRecord::price)
                 .sum();
     }
 }
