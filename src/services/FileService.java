@@ -9,11 +9,11 @@ import java.util.List;
 
 public class FileService {
 
-    public static List<TransactionRecord> loadTransactions(String name) {
+    public static List<TransactionRecord> loadTransactions(String fileName) {
         List<TransactionRecord> transactions = new ArrayList<>();
 
         try {
-            File file = new File(name + ".csv");
+            File file = new File(fileName + ".csv");
 
             if (file.exists()) {
                 FileReader fileReader = new FileReader(file);
@@ -52,10 +52,10 @@ public class FileService {
 
     }
 
-    public static void saveTransactions(List<TransactionRecord> transactions) {
+    public static void saveTransactions(List<TransactionRecord> transactions, String fileName) {
 
         try {
-            FileWriter myWriter = new FileWriter("My_finances.csv", false);
+            FileWriter myWriter = new FileWriter(fileName + ".csv", false);
             BufferedWriter myBufferedWriter = new BufferedWriter(myWriter);
 
             for (TransactionRecord t : transactions) {
@@ -67,7 +67,7 @@ public class FileService {
             }
 
             myBufferedWriter.close();
-            System.out.println("✅ Data saved successfully: 'My_finances.csv'");
+            System.out.println("✅ Data saved successfully: " + fileName + "'.csv'");
         } catch (IOException error) {
             System.out.println("Error writing to file" + error.getMessage());
         }

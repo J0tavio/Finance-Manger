@@ -32,3 +32,4 @@ bin/
 My_finances.csv
 
 .idea
+*.csv

@@ -1,29 +1,22 @@
 import enums.Category;
-import records.Transaction;
+import models.records.TransactionRecord;
 import services.FileService;
 import services.FinanceService;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
-
-import static services.FileService.deleteTransactions;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<Transaction> transactions = FileService.loadTransactions();
-
         FinanceService financeService = new FinanceService();
 
-        String description = "";
-        String type = "";
+        String description, answer, type, filename = "";
         double price = 0;
         Category category = null;
-        String answer = "";
 
         System.out.println("====================================");
         System.out.println("*** My Finance Management System ***");
@@ -35,6 +28,10 @@ public class Main {
                 4. Delete""");
         System.out.println("====================================");
 
+        System.out.println("Please enter the name of your file");
+        filename = scanner.nextLine();
+
+        List<TransactionRecord> transactions = FileService.loadTransactions(filename);
 
         do {
             System.out.print("Please enter your choice: ");
@@ -56,11 +53,8 @@ public class Main {
                         System.out.println("Enter Category: Food, Transport, Health or Salary");
                         category = Category.valueOf(scanner.nextLine().toUpperCase());
 
-                        transactions.add(new Transaction(description, type, price, category));
+                        transactions.add(new TransactionRecord(description, type, price, category));
                         System.out.println();
-
-//                        System.out.println("Do you want to add an item to the list? (Y/N)");
-//                        answer = scanner.nextLine();
 
                     } catch (InputMismatchException inputMismatchException) {
                         System.out.println("ERROR: The price must be numbers");
@@ -79,11 +73,17 @@ public class Main {
                     break;
                 case "3":
                     answer = "exit";
-                    FileService.saveTransactions(transactions);
+                    FileService.saveTransactions(transactions, filename);
                     break;
                 case "4":
                     FileService.deleteTransactions("My_finances.csv");
-                    answer = "exit";
+                    transactions.clear();
+                    System.out.println("Do you want to exit? y/n");
+                    answer = scanner.nextLine();
+
+                    if (Objects.equals(answer, "y")) {
+                        answer = "exit";
+                    }
                     break;
                 default:
                     System.out.println("ERROR: Please enter a valid choice");
