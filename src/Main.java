@@ -18,13 +18,8 @@ public class Main {
         double price = 0;
         Category category = null;
 
-        System.out.println("Do you want to create a new file? (Y/N)");
-        answer = scanner.nextLine();
-
-        if (answer.equalsIgnoreCase("Y")) {
-            System.out.println("Please enter the name of your file");
-            filename = scanner.nextLine();
-        }
+        System.out.println("Please enter the name of your file (to load or create):");
+        filename = scanner.nextLine();
 
         List<TransactionRecord> transactions = FileService.loadTransactions(filename);
 

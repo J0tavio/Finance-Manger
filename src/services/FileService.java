@@ -67,7 +67,7 @@ public class FileService {
             }
 
             myBufferedWriter.close();
-            System.out.println("✅ Data saved successfully: " + fileName + "'.csv'");
+            System.out.println("✅ Data saved successfully: " + fileName + ".csv");
         } catch (IOException error) {
             System.out.println("Error writing to file" + error.getMessage());
         }
