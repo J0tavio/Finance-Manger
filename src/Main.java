@@ -14,30 +14,35 @@ public class Main {
 
         FinanceService financeService = new FinanceService();
 
-        String description, answer, type, filename = "";
+        String description, choice, answer, type, filename = "";
         double price = 0;
         Category category = null;
 
-        System.out.println("====================================");
-        System.out.println("*** My Finance Management System ***");
-        System.out.println("====================================");
-        System.out.println("""
-                1. Add Transaction\s
-                2. View Finance Summary
-                3. Exit
-                4. Delete""");
-        System.out.println("====================================");
+        System.out.println("Do you want to create a new file? (Y/N)");
+        answer = scanner.nextLine();
 
-        System.out.println("Please enter the name of your file");
-        filename = scanner.nextLine();
+        if (answer.equalsIgnoreCase("Y")) {
+            System.out.println("Please enter the name of your file");
+            filename = scanner.nextLine();
+        }
 
         List<TransactionRecord> transactions = FileService.loadTransactions(filename);
 
         do {
-            System.out.print("Please enter your choice: ");
-            answer = scanner.nextLine();
+            System.out.println("====================================");
+            System.out.println("*** My Finance Management System ***");
+            System.out.println("====================================");
+            System.out.println("""
+                    1. Add Transaction\s
+                    2. View Finance Summary
+                    3. Exit
+                    4. Delete""");
+            System.out.println("====================================");
 
-            switch (answer) {
+            System.out.print("Please enter your choice: ");
+            choice = scanner.nextLine();
+
+            switch (choice) {
                 case "1":
                     System.out.print("\nEnter Description: ");
                     description = scanner.nextLine();
@@ -72,27 +77,27 @@ public class Main {
                     System.out.println("Total: " + (salary - calcExpenses) + "\n");
                     break;
                 case "3":
-                    answer = "exit";
+                    choice = "exit";
                     FileService.saveTransactions(transactions, filename);
                     break;
                 case "4":
-                    FileService.deleteTransactions("My_finances.csv");
+                    System.out.print("\nName of the file to delete: ");
+                    filename = scanner.nextLine();
+                    FileService.deleteTransactions(filename + ".csv");
                     transactions.clear();
                     System.out.println("Do you want to exit? y/n");
-                    answer = scanner.nextLine();
+                    choice = scanner.nextLine();
 
-                    if (Objects.equals(answer, "y")) {
-                        answer = "exit";
+                    if (Objects.equals(choice, "y")) {
+                        choice = "exit";
                     }
                     break;
                 default:
                     System.out.println("ERROR: Please enter a valid choice");
                     break;
-
             }
         }
-        while (!answer.equalsIgnoreCase("exit"));
-
+        while (!choice.equalsIgnoreCase("exit"));
 
     }
 }
