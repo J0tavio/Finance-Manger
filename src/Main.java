@@ -23,10 +23,11 @@ public class Main {
 
         List<TransactionRecord> transactions = FileService.loadTransactions(filename);
 
+        System.out.println("====================================");
+        System.out.println("*** My Finance Management System ***");
+        System.out.println("====================================");
+
         do {
-            System.out.println("====================================");
-            System.out.println("*** My Finance Management System ***");
-            System.out.println("====================================");
             System.out.println("""
                     1. Add Transaction\s
                     2. View Finance Summary
