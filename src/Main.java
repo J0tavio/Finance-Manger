@@ -78,9 +78,14 @@ public class Main {
                     break;
                 case "4":
                     System.out.print("\nName of the file to delete: ");
-                    filename = scanner.nextLine();
-                    FileService.deleteTransactions(filename + ".csv");
-                    transactions.clear();
+                    String fileToDelete = scanner.nextLine();
+
+                    FileService.deleteTransactions(fileToDelete + ".csv");
+
+                    if (fileToDelete.equalsIgnoreCase(filename)) {
+                        transactions.clear();
+                    }
+
                     System.out.println("Do you want to exit? y/n");
                     choice = scanner.nextLine();
 
