@@ -31,8 +31,9 @@ public class Main {
             System.out.println("""
                     1. Add Transaction\s
                     2. View Finance Summary
-                    3. Exit
-                    4. Delete""");
+                    3. View Total Expenses Only
+                    4. Delete
+                    5. Exit""");
             System.out.println("====================================");
 
             System.out.print("Please enter your choice: ");
@@ -68,13 +69,16 @@ public class Main {
                 case "2":
                     double calcExpenses = financeService.calculateExpenses(transactions);
                     double salary = financeService.calculateSalary(transactions);
+
                     System.out.println("Your expenses: " + calcExpenses);
                     System.out.println("Your salary: " + salary);
                     System.out.println("Total: " + (salary - calcExpenses) + "\n");
                     break;
                 case "3":
-                    choice = "exit";
-                    FileService.saveTransactions(transactions, filename);
+                    double expensesOnly = financeService.calculateExpenses(transactions);
+
+                    System.out.println("\n--- EXPENSES ONLY ---");
+                    System.out.println("You have spent a total of: $" + expensesOnly + "\n");
                     break;
                 case "4":
                     System.out.print("\nName of the file to delete: ");
@@ -92,6 +96,10 @@ public class Main {
                     if (Objects.equals(choice, "y")) {
                         choice = "exit";
                     }
+                    break;
+                case "5":
+                    choice = "exit";
+                    FileService.saveTransactions(transactions, filename);
                     break;
                 default:
                     System.out.println("ERROR: Please enter a valid choice");
